@@ -7,7 +7,14 @@ pipeline {
         stage('Stage 1') {
             steps {
                 script {
-                    sh "echo Stage 1"
+                    sh 'id'
+                    sh 'df -hm'
+                    sh 'ls -la'
+                    sh 'docker --version'
+                    sh 'docker images'
+                    sh 'docker container list -a'
+                    sh 'cat /etc/os-release'
+                    sh 'uname -r'
                 }
             }
         }
@@ -15,7 +22,7 @@ pipeline {
         stage('Stage 2') {
             steps {
                 script {
-                    sh "echo Stage 2"
+                    docker.build('test-image', '-f ci/Dockerfile .')
                 }
             }
         }
