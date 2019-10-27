@@ -1,8 +1,5 @@
 pipeline {
-    
-  options {
-  }
-  
+
   stages {
 
    stage('Stage 1') {
