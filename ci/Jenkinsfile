@@ -4,26 +4,20 @@ pipeline {
 
     stages {
 
-        stage('Stage 1') {
+        stage('Init') {
             steps {
                 script {
-                    sh 'id'
-                    sh 'df -hm'
-                    sh 'ls -la'
                     sh 'docker --version'
                     sh 'docker images'
                     sh 'docker container list -a'
-                    sh 'cat /etc/os-release'
-                    sh 'uname -r'
                 }
             }
         }
 
-        stage('Stage 2') {
+        stage('Build + Deploy') {
             steps {
                 script {
-                    // docker.build('test-image', '-f ci/Dockerfile .')
-                    script {
+                       script {
                         sh 'docker build --pull -t "experiment-nginx:latest" -f ./ci/Dockerfile .'
                         sh 'docker tag "experiment-nginx:latest" "769910020948.dkr.ecr.eu-west-1.amazonaws.com/experiment-nginx:test1"'
                         sh '$(aws ecr get-login --region "eu-west-1" --no-include-email)'
