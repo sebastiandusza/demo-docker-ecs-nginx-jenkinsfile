@@ -1,3 +1,3 @@
-FROM openjdk:11.0.2-jre-slim-stretch
+FROM nginx
 
-ENTRYPOINT "/bin/bash -c en"
+COPY web-content /usr/share/nginx/html
