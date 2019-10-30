@@ -37,7 +37,7 @@ pipeline {
             }
         }
 
-        stage('Build + Push to ECR') {
+        stage('Deploy to ECS') {
             steps {
                 script {
                     sh 'cd ci && ./deploy.sh ${currentVersion} experiment-nginx:${currentVersion}'
