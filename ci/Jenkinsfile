@@ -36,7 +36,7 @@ pipeline {
                     sh 'docker push "769910020948.dkr.ecr.eu-west-1.amazonaws.com/experiment-nginx:${currentVersion}"'
                     */
 
-                    sh "cd ci && ./build.sh ${currentVersion}"
+                    sh "./build.sh ${currentVersion}"
                }
             }
         }
