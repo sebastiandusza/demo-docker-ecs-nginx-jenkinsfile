@@ -6,7 +6,6 @@ export VERSION=$1
 export IMAGE_URL="$ECR_REGISTRY/$2"
 APP_SPEC_FILE="appspec-$VERSION.json"
 
-
 # parse & publish task definition
 envsubst < "ci/ecs-task.json.tpl" > "ci/ecs-task.json"
 export TASK_DEFINITION_ARN=`aws ecs register-task-definition --cli-input-json file://ci/ecs-task.json --region eu-west-1 | jq -r .taskDefinition.taskDefinitionArn`
