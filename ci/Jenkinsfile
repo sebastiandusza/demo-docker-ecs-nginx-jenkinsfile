@@ -1,10 +1,12 @@
+def currentVersion
+
 pipeline {
 
     agent any
 
     stages {
 
-        stage('Init') {
+        stage('Debug info') {
             steps {
                 script {
                     sh 'docker --version'
@@ -14,16 +16,35 @@ pipeline {
             }
         }
 
-        stage('Build + Deploy') {
+        stage ('Setup version') {
+            steps{
+                script {
+                    currentVersion = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim().substring(0,6)
+                    sh "echo Building version ${currentVersion}"
+                }
+            }
+
+        }
+
+        stage('Build + Push to ECR') {
             steps {
                 script {
                     sh 'docker build --pull -t "experiment-nginx:latest" -f ./ci/Dockerfile .'
-                    sh 'docker tag "experiment-nginx:latest" "769910020948.dkr.ecr.eu-west-1.amazonaws.com/experiment-nginx:test3"'
+                    sh 'docker tag "experiment-nginx:latest" "769910020948.dkr.ecr.eu-west-1.amazonaws.com/experiment-nginx:${currentVersion}"'
                     sh '$(aws ecr get-login --region "eu-west-1" --no-include-email)'
-                    sh 'docker push "769910020948.dkr.ecr.eu-west-1.amazonaws.com/experiment-nginx:test3"'
+                    sh 'docker push "769910020948.dkr.ecr.eu-west-1.amazonaws.com/experiment-nginx:${currentVersion}"'
                }
             }
         }
+
+        stage('Build + Push to ECR') {
+            steps {
+                script {
+                    sh 'cd ci && ./deploy.sh ${currentVersion} experiment-nginx:${currentVersion}'
+                }
+            }
+        }
+
 
     }
 
