@@ -36,7 +36,7 @@ pipeline {
                     sh 'docker push "769910020948.dkr.ecr.eu-west-1.amazonaws.com/experiment-nginx:${currentVersion}"'
                     */
 
-                    sh "./build.sh ${currentVersion}"
+                    sh "./ci/build.sh ${currentVersion}"
                }
             }
         }
@@ -44,7 +44,7 @@ pipeline {
         stage('Deploy to ECS') {
             steps {
                 script {
-                    sh "cd ci && ./deploy.sh ${currentVersion} experiment-nginx:${currentVersion}"
+                    sh "./ci/deploy.sh ${currentVersion} experiment-nginx:${currentVersion}"
                 }
             }
         }
