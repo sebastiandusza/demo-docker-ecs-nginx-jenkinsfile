@@ -31,8 +31,6 @@
                 "name": "PORT",
                 "value": "3000"
             }
-        ],
-        "secrets": [
         ]
     }
 ]
