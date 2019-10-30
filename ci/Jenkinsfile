@@ -9,7 +9,7 @@ pipeline {
                 script {
                     sh 'docker --version'
                     sh 'docker images'
-                    sh 'docker container list -a'
+                    sh 'aws --version'
                 }
             }
         }
@@ -18,10 +18,10 @@ pipeline {
             steps {
                 script {
                     sh 'docker build --pull -t "experiment-nginx:latest" -f ./ci/Dockerfile .'
-                    sh 'docker tag "experiment-nginx:latest" "769910020948.dkr.ecr.eu-west-1.amazonaws.com/experiment-nginx:test1"'
+                    sh 'docker tag "experiment-nginx:latest" "769910020948.dkr.ecr.eu-west-1.amazonaws.com/experiment-nginx:test2"'
                     sh '$(aws ecr get-login --region "eu-west-1" --no-include-email)'
-                    sh 'docker push "769910020948.dkr.ecr.eu-west-1.amazonaws.com/experiment-nginx:test1"'
-                }
+                    sh 'docker push "769910020948.dkr.ecr.eu-west-1.amazonaws.com/experiment-nginx:test2"'
+               }
             }
         }
 
