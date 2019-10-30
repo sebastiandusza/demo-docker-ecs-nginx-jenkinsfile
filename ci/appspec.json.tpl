@@ -5,7 +5,7 @@
     "TargetService": {
       "Type": "AWS::ECS::Service",
       "Properties": {
-        "TaskDefinition": "arn:aws:ecs:eu-west-1:769910020948:task-definition/newweb-experiment:4",
+        "TaskDefinition": "${TASK_DEFINITION_ARN}",
         "LoadBalancerInfo": {
           "ContainerName": "newweb-experiment-nginx",
           "ContainerPort": 80
